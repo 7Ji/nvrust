@@ -143,7 +143,7 @@ fn get_next_time(time_now: &time::OffsetDateTime, segment: u32) -> time::OffsetD
     let minute_second = time_now.minute() as u32 * 60 + time_now.second() as u32;
     let upper_bound = (minute_second / segment + 1) * segment;
 
-    time_now.clone() + time::Duration::seconds((upper_bound - minute_second) as _)
+    time_now.clone().replace_nanosecond(0).expect("Failed to replace nano second to 0") + time::Duration::seconds((upper_bound - minute_second) as _)
 }
 
 fn get_name(time: &time::OffsetDateTime, camera: &crate::camera::Camera, metadata: &crate::camera::Metadata) -> String {
